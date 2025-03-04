@@ -1,10 +1,10 @@
-# Batch Connect - Example Jupyter Notebook Server
+# Cirrus Open OnDemand - Jupyter Lab Server
 
-![GitHub Release](https://img.shields.io/github/release/osc/bc_example_jupyter.svg)
-![GitHub License](https://img.shields.io/github/license/osc/bc_example_jupyter.svg)
+![GitHub Release](https://img.shields.io/github/release/EPCCed/cirrus-ood-jupyter.svg)
+![GitHub License](https://img.shields.io/github/license/EPCCed/cirrus-ood-jupyter.svg)
 
-An example Batch Connect app that launches a Jupyter Notebook server within a
-batch job.
+An Open OnDemand Batch Connect app for Cirrus that launches a Jupyter Lab
+server within a batch job.
 
 ## Prerequisites
 
@@ -20,55 +20,13 @@ OnDemand node):
 **Optional** software:
 
 - [Lmod](https://www.tacc.utexas.edu/research-development/tacc-projects/lmod)
-  6.0.1+ or any other `module purge` and `module load <modules>` based CLI
+  6.0.1+ or any other `module restore` and `module load <modules>` based CLI
   used to load appropriate environments within the batch job before launching
   the Jupyter Notebook server.
 
-## Install
-
-These are command line only installation directions.
-
-We start by downloading a zipped package of this code. This allows us to start
-with a fresh directory that has no git history as we will be building off of
-this.
-
-```sh
-# Download the zip from the GitHub page
-wget https://github.com/OSC/bc_example_jupyter/archive/master.tar.gz
-
-# Create a catchy directory
-mkdir my_jupyter_app
-
-# Unzip the downloaded file into this directory
-tar xzvf master.tar.gz -C my_jupyter_app --strip-components=1
-
-# Change the working directory to this new directory
-cd my_jupyter_app
-```
-
-From here you will make any modifications to the code that you would like and
-version your changes in your own repository:
-
-```sh
-# Version our app by making a new Git repository
-git init
-
-#
-# Make all your code changes while testing them in the OnDemand Dashboard
-#
-# ...
-#
-
-# Add the files to the Git repository
-git add --all
-
-# Commit the staged files to the Git repository
-git commit -m "my first commit"
-```
-
 ## Contributing
 
-1. Fork it ( https://github.com/OSC/bc_example_jupyter/fork )
+1. Fork it ( https://github.com/EPCCed/cirrus-ood-jupyter/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
