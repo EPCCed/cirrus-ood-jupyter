@@ -4,15 +4,26 @@
 echo "TIMING - Starting main script at: $(date)"
 
 # Set working directory to home directory
-cd "${HOME}"
+cd <%= context.working_directory %>
+
+# Set runtime directory (per Cirrus docs)
+export JUPYTER_RUNTIME_DIR=$(pwd)
+
+# Set data directory to the work filesystem
+export XDG_CACHE_HOME=${HOME/home/work}
+
+export IPYTHONDIR=${XDG_CACHE_HOME}/.ipython
+
+export JUPYTER_CONFIG_DIR=${XDG_CACHE_HOME}/.jupyter
+export JUPYTER_DATA_DIR=${XDG_CACHE_HOME}/.jupyter
 
 #
 # Start Jupyter Notebook Server
 #
 
 <%- unless context.modules.blank? -%>
-# Purge the module environment to avoid conflicts
-module purge
+# Restore the module environment to avoid conflicts
+module restore
 
 # Load the require modules
 module load <%= context.modules %>

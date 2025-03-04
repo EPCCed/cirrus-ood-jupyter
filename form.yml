@@ -8,7 +8,7 @@
 # under /etc/ood/config/clusters.d/*.yml
 # @example Use the Owens cluster at Ohio Supercomputer Center
 #     cluster: "owens"
-cluster: ""
+cluster: "cirrus"
 
 # Define attribute values that aren't meant to be modified by the user within
 # the Dashboard form
@@ -31,6 +31,25 @@ attributes:
   # command that launches the Jupyter notebook within the batch job
   extra_jupyter_args: ""
 
+  # Set default queue
+  auto_queues:
+    value: "standard"
+
+  # Set default qos
+  auto_qos:
+    value: "standard"
+
+  # Allow user to set their working directory
+  working_directory:
+    widget: "path_selector"
+    value: "${HOME/home/work}"
+    directory: "${HOME/home/work}"
+    show_hidden: true
+    show_files: false
+    required: true
+    label: "Working directory"
+    help: "Set the working directory for your Jupyter server. For jobs running on the compute nodes, this must be on the work filesystem."
+
 # All of the attributes that make up the Dashboard form (in respective order),
 # and made available to the submit configuration file and the template ERB
 # files
@@ -43,8 +62,10 @@ attributes:
 form:
   - modules
   - extra_jupyter_args
-  - bc_account
-  - bc_queue
+  - auto_accounts
+  - auto_queues
+  - auto_qos
   - bc_num_hours
   - bc_num_slots
+  - working_directory
   - bc_email_on_started
