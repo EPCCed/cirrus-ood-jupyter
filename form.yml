@@ -27,8 +27,8 @@ attributes:
   #     modules: "python/3.5 cuda/8.0.44"
   modules: "python"
 
-  # Any extra command line arguments to feed to the `jupyter notebook ...`
-  # command that launches the Jupyter notebook within the batch job
+  # Any extra command line arguments to feed to the `jupyter lab ...`
+  # command that launches the Jupyter lab within the batch job
   extra_jupyter_args: ""
 
   # Set default queue
