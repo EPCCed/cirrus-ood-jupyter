@@ -21,9 +21,9 @@ export JUPYTER_DATA_DIR=${XDG_CACHE_HOME}/.jupyter
 # Start Jupyter Notebook Server
 #
 
-<%- unless context.modules.blank? -%>
+# <%- unless context.modules.blank? -%>
 # Restore the module environment to avoid conflicts
-module restore
+# module restore
 
 # Load the require modules
 module load <%= context.modules %>
