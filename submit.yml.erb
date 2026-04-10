@@ -6,6 +6,18 @@
 # Configure the content of the job script for the batch job here
 # @see http://www.rubydoc.info/gems/ood_core/OodCore/BatchConnect/Template
 #
+
+<%-
+
+  slurm_args = [
+    "--hint=nomultithread",
+    "--distribution=block:block",
+    "--nodes", "#{bc_num_slots.to_i}", 
+    "--ntasks-per-node", "#{num_cores.to_i}", 
+    "--time", "#{custom_walltime}"]
+
+-%>
+
 batch_connect:
   # We use the basic web server template for generating the job script
   #
@@ -29,3 +41,12 @@ batch_connect:
 #  accounting_id: "account1"
 #  email_on_started: true
 #  native: # ... array of command line arguments ...
+
+script:
+  native:
+    <%- slurm_args.each do |arg| %>
+    - "<%= arg %>"
+    <%- end %>
+    <%- if use_exclusive == "1" -%>
+    - "--exclusive"
+    <%- end -%>
