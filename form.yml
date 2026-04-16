@@ -31,58 +31,89 @@ attributes:
   # command that launches the Jupyter lab within the batch job
   extra_jupyter_args: ""
 
-  # Set default queue
+  # ---------------------------------------------------------------------------
+  # Scheduler configuration
+  # ---------------------------------------------------------------------------
   auto_queues:
     value: "standard"
+    help: "Slurm partition/queue to submit the job to."
 
-  # Set default qos
   auto_qos:
     value: "standard"
+    help: "Quality of Service for the job."
 
-  # Walltime setting for the job
   custom_walltime:
     label: "Walltime"
     widget: "text_field"
-    value: "01:00:00"
-    help: "Format: HH:MM:SS"
+    default: "01:00:00"
+    required: true
+    help: |
+      Maximum runtime for the job (Format: HH:MM:SS).
 
-  # Number of CPU cores allocated per node
   num_cores:
     widget: "number_field"
-    label: "Number of cores per node"
-    value: 32
+    label: "Number of CPU cores"
+    default: 32
     min: 1
     max: 288
     step: 1
+    required: true
+    help: "Total number of CPU cores requested."
 
-  # Option to request exclusive access to a node
-  use_exclusive:
-    label: "Exclusive Node Access"
+  exclusive_node:
+    label: "Exclusive node access"
     widget: "check_box"
     checked_value: "1"
     unchecked_value: "0"
-    help: "Adds --exclusive, preventing other jobs from running on your nodes"
+    help: |
+      If enabled, the job will reserve the entire node. No other jobs will run on the same node.
 
-  # Allow user to set their working directory
+  # ---------------------------------------------------------------------------
+  # Working directory
+  # ---------------------------------------------------------------------------
   working_directory:
     widget: "path_selector"
+    label: "Working directory"
     value: "${HOME/home/work}"
     directory: "${HOME/home/work}"
     show_hidden: true
     show_files: false
     required: true
-    label: "Working directory"
-    help: "Set the working directory for your Jupyter server. For jobs running on the compute nodes, this must be on the work filesystem."
+    help: |
+      Directory where JupyterLab will start.
 
-# All of the attributes that make up the Dashboard form (in respective order),
-# and made available to the submit configuration file and the template ERB
-# files
-#
-# @note You typically do not need to modify this unless you want to add a new
-#   configurable value
-# @note If an attribute listed below is hard-coded above in the `attributes`
-#   option, then it will not appear in the form page that the user sees in the
-#   Dashboard
+      IMPORTANT:
+      This must be on the work filesystem (not home) for compute jobs.
+
+  # ---------------------------------------------------------------------------
+  # Python virtual environment
+  # ---------------------------------------------------------------------------
+  create_venv:
+    label: "Create environment"
+    widget: "check_box"
+    checked_value: "1"
+    unchecked_value: "0"
+    help: |
+      Use the Python virtual environment path: create a new venv there if enabled.
+
+  venv_path:
+    label: "Python virtual environment path"
+    widget: "path_selector"
+    value: "${HOME/home/work}/my_venv"
+    directory: "${HOME/home/work}"
+    show_hidden: true
+    show_files: false
+    required: true
+    help: |
+      Path to the Python virtual environment.
+
+      Example:
+        ${HOME/home/work}/my_project_env
+
+
+# -----------------------------------------------------------------------------
+# Form layout (order matters)
+# -----------------------------------------------------------------------------
 form:
   - modules
   - extra_jupyter_args
@@ -92,5 +123,7 @@ form:
   - custom_walltime
   - bc_num_slots
   - num_cores
-  - use_exclusive
+  - exclusive_node
+  - venv_path
+  - create_venv
   - working_directory
