@@ -38,7 +38,7 @@ VENV_DIR="<%= context.venv_path %>"
 # --- Virtual Environment Handling ---
 if [ "<%= context.create_venv %>" == "1" ]; then
   echo "Setup: Creating/Updating venv at $VENV_DIR"
-  python -m venv "$VENV_DIR"
+  python -m venv --system-site-packages "$VENV_DIR"
   
   source "$VENV_DIR/bin/activate"
   
