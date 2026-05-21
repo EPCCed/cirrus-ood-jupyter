@@ -50,6 +50,13 @@ attributes:
     help: |
       Maximum runtime for the job (Format: HH:MM:SS).
 
+  bc_num_slots:
+    label: "Number of nodes"
+    widget: "number_field"
+    value: 1
+    min: 1
+    help: "Number of nodes requested for the job."
+
   num_cores:
     widget: "number_field"
     label: "CPU cores per node"
