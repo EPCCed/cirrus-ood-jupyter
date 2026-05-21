@@ -16,6 +16,7 @@ export IPYTHONDIR=${XDG_CACHE_HOME}/.ipython
 
 export JUPYTER_CONFIG_DIR=${XDG_CACHE_HOME}/.jupyter
 export JUPYTER_DATA_DIR=${XDG_CACHE_HOME}/.jupyter
+export JUPYTER_PATH="${XDG_CACHE_HOME}/.jupyter/share/jupyter:${JUPYTER_PATH}"
 
 #
 # Start Jupyter Notebook Server
@@ -31,6 +32,27 @@ module load <%= context.modules %>
 # List loaded modules
 module list
 <%- end -%>
+
+VENV_DIR="<%= context.venv_path %>"
+
+# --- Virtual Environment Handling ---
+if [ "<%= context.create_venv %>" == "1" ]; then
+  echo "Setup: Creating/Updating venv at $VENV_DIR"
+  python -m venv --system-site-packages "$VENV_DIR"
+  
+  source "$VENV_DIR/bin/activate"
+  
+  echo "Setup: Installing/Updating JupyterLab"
+  pip install --upgrade pip
+  pip install jupyterlab
+else
+  echo "Setup: Activating existing venv at $VENV_DIR"
+  source "$VENV_DIR/bin/activate"
+fi
+
+echo "Using Python: $(which python)"
+echo "Using Jupyter: $(which jupyter)"
+jupyter kernelspec list
 
 # Benchmark info
 echo "TIMING - Starting jupyter at: $(date)"

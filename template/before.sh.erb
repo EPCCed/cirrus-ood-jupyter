@@ -58,3 +58,37 @@ c.ServerApp.disable_check_xsrf = True
 c.FileContentsManager.delete_to_trash = False
 EOL
 )
+
+# Expand variables like ${HOME} or ${WORK}
+EXPANDED_PATH=$(eval echo "<%= context.venv_path %>")
+
+<%- if context.create_venv == "0" -%>
+  # User wants to use an existing venv. Validate it now to show UI errors.
+  
+  if [ ! -d "$EXPANDED_PATH" ]; then
+    echo "ERROR: The path $EXPANDED_PATH does not exist. Check the path or enable 'Create environment'."
+    exit 1
+  fi
+
+  if [ ! -f "$EXPANDED_PATH/bin/activate" ]; then
+    echo "ERROR: $EXPANDED_PATH is not a valid virtual environment (missing bin/activate)."
+    exit 1
+  fi
+
+  if [ ! -f "$EXPANDED_PATH/bin/jupyter-lab" ]; then
+    echo "ERROR: JupyterLab is not installed in $EXPANDED_PATH. Enable 'Create environment' to install it."
+    exit 1
+  fi
+<%- else -%>
+  # User is creating a new venv. 
+  # Just verify the parent directory exists so the job doesn't fail on the node.
+  PARENT_DIR=$(dirname "$EXPANDED_PATH")
+  if [ ! -d "$PARENT_DIR" ]; then
+    echo "ERROR: Cannot create environment. Parent directory $PARENT_DIR does not exist."
+    exit 1
+  fi
+  if [ ! -w "$PARENT_DIR" ]; then
+    echo "ERROR:  Permission Denied. You do not have write access to $PARENT_DIR to create an environment."
+    exit 1
+  fi
+<%- end -%>

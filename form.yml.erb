@@ -1,0 +1,137 @@
+# Batch Connect app configuration file
+#
+# @note Used to define the submitted cluster, title, description, and
+#   hard-coded/user-defined attributes that make up this Batch Connect app.
+---
+
+# **MUST** set cluster id here that matches cluster configuration file located
+# under /etc/ood/config/clusters.d/*.yml
+# @example Use the Owens cluster at Ohio Supercomputer Center
+#     cluster: "owens"
+cluster: "cirrus"
+
+# Define attribute values that aren't meant to be modified by the user within
+# the Dashboard form
+attributes:
+  # Set the corresponding modules that need to be loaded for Jupyter to run
+  #
+  # @note It is called within the batch job as `module load <modules>` if
+  #   defined
+  # @example Do not load any modules
+  #     modules: ""
+  # @example Using default python module
+  #     modules: "python"
+  # @example Using specific python module
+  #     modules: "python/3.5"
+  # @example Using combination of modules
+  #     modules: "python/3.5 cuda/8.0.44"
+  modules: "python"
+
+  # Any extra command line arguments to feed to the `jupyter lab ...`
+  # command that launches the Jupyter lab within the batch job
+  extra_jupyter_args: ""
+
+  # ---------------------------------------------------------------------------
+  # Scheduler configuration
+  # ---------------------------------------------------------------------------
+  auto_queues:
+    value: "standard"
+    help: "Slurm partition/queue to submit the job to."
+
+  auto_qos:
+    value: "standard"
+    help: "Quality of Service for the job."
+
+  custom_walltime:
+    label: "Walltime"
+    widget: "text_field"
+    value: "01:00:00"
+    required: true
+    help: |
+      Maximum runtime for the job (Format: HH:MM:SS).
+
+  bc_num_slots:
+    label: "Number of nodes"
+    widget: "number_field"
+    value: 1
+    min: 1
+    help: "Number of nodes requested for the job."
+
+  num_cores:
+    widget: "number_field"
+    label: "CPU cores per node"
+    value: 32
+    min: 1
+    max: 288
+    step: 1
+    required: true
+    help: "Number of CPU cores requested per node."
+
+  exclusive_node:
+    label: "Exclusive node access"
+    widget: "check_box"
+    checked_value: "1"
+    unchecked_value: "0"
+    help: |
+      If enabled, the job will reserve the entire node. No other jobs will run on the same node.
+
+  # ---------------------------------------------------------------------------
+  # Working directory
+  # ---------------------------------------------------------------------------
+  working_directory:
+    widget: "path_selector"
+    label: "Working directory"
+    value: "<%= ENV['HOME'].sub('/home/', '/work/') %>"
+    directory: "<%= ENV['HOME'].sub('/home/', '/work/') %>"
+    show_hidden: true
+    show_files: false
+    required: true
+    help: |
+      Directory where JupyterLab will start.
+
+      IMPORTANT:
+      This must be on the work filesystem (not home) for compute jobs.
+
+  # ---------------------------------------------------------------------------
+  # Python virtual environment
+  # ---------------------------------------------------------------------------
+  create_venv:
+    label: "Create environment"
+    widget: "check_box"
+    checked_value: "1"
+    unchecked_value: "0"
+    help: |
+      Use the Python virtual environment path: create a new venv there if enabled.
+
+  venv_path:
+    label: "Python virtual environment path"
+    widget: "path_selector"
+    value: "<%= ENV['HOME'].sub('/home/', '/work/') %>/my_venv"
+    directory: "<%= ENV['HOME'].sub('/home/', '/work/') %>"
+    show_hidden: true
+    show_files: false
+    popup_title: "Select Python virtual environment path"
+    required: true
+    help: |
+      Path to the Python virtual environment.
+
+      Example:
+        <%= ENV['HOME'].sub('/home/', '/work/') %>/my_project_env
+
+
+# -----------------------------------------------------------------------------
+# Form layout (order matters)
+# -----------------------------------------------------------------------------
+form:
+  - modules
+  - extra_jupyter_args
+  - auto_accounts
+  - auto_queues
+  - auto_qos
+  - custom_walltime
+  - bc_num_slots
+  - num_cores
+  - exclusive_node
+  - venv_path
+  - create_venv
+  - working_directory

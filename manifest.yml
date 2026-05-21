@@ -1,5 +1,5 @@
 ---
-name: Jupyter Lab
+name: Cirrus Jupyter Lab
 category: Interactive Apps
 subcategory: Servers
 role: batch_connect
