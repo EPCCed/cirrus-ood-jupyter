@@ -58,7 +58,7 @@ attributes:
     max: 288
     step: 1
     required: true
-    help: "Total number of CPU cores requested."
+    help: "Number of CPU cores requested per node."
 
   exclusive_node:
     label: "Exclusive node access"
