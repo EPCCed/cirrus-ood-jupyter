@@ -88,6 +88,6 @@ script:
     <%- slurm_args.each do |arg| %>
     - "<%= arg %>"
     <%- end %>
-    <%- if use_exclusive == "1" -%>
+    <%- if exclusive_node == "1" -%>
     - "--exclusive"
     <%- end -%>
