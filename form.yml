@@ -103,6 +103,7 @@ attributes:
     directory: "${HOME/home/work}"
     show_hidden: true
     show_files: false
+    popup_title: "Select Python virtual environment path"
     required: true
     help: |
       Path to the Python virtual environment.
