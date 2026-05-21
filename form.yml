@@ -52,7 +52,7 @@ attributes:
 
   num_cores:
     widget: "number_field"
-    label: "Number of CPU cores"
+    label: "CPU cores per node"
     value: 32
     min: 1
     max: 288
