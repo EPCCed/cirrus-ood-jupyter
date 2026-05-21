@@ -74,8 +74,8 @@ attributes:
   working_directory:
     widget: "path_selector"
     label: "Working directory"
-    value: "${HOME/home/work}"
-    directory: "${HOME/home/work}"
+    value: "<%= ENV['HOME'].sub('/home/', '/work/') %>"
+    directory: "<%= ENV['HOME'].sub('/home/', '/work/') %>"
     show_hidden: true
     show_files: false
     required: true
@@ -99,8 +99,8 @@ attributes:
   venv_path:
     label: "Python virtual environment path"
     widget: "path_selector"
-    value: "${HOME/home/work}/my_venv"
-    directory: "${HOME/home/work}"
+    value: "<%= ENV['HOME'].sub('/home/', '/work/') %>/my_venv"
+    directory: "<%= ENV['HOME'].sub('/home/', '/work/') %>"
     show_hidden: true
     show_files: false
     popup_title: "Select Python virtual environment path"
@@ -109,7 +109,7 @@ attributes:
       Path to the Python virtual environment.
 
       Example:
-        ${HOME/home/work}/my_project_env
+        <%= ENV['HOME'].sub('/home/', '/work/') %>/my_project_env
 
 
 # -----------------------------------------------------------------------------
